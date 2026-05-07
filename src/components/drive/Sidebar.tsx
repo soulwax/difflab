@@ -1,6 +1,7 @@
 "use client";
 
-import { FolderPlus, GitCompareArrows, Plus, Server } from "lucide-react";
+import { FolderPlus, GitCompareArrows, Plus } from "lucide-react";
+import Image from "next/image";
 
 import { FolderTree } from "~/components/drive/FolderTree";
 import { Button } from "~/components/ui/Button";
@@ -32,11 +33,29 @@ export function Sidebar({
 }: SidebarProps) {
 	return (
 		<aside className="flex h-full w-full flex-col border-[var(--color-border)] border-r bg-[var(--color-surface)]">
-			<div className="space-y-3 border-[var(--color-border)] border-b p-3">
-				<div className="flex items-center gap-2 px-1 text-[var(--color-text-muted)] text-xs">
-					<Server aria-hidden="true" size={14} strokeWidth={1.8} />
-					<span className="truncate">difflab-storage</span>
+			<div className="flex h-14 shrink-0 items-center gap-3 border-[var(--color-border)] border-b px-4">
+				<div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-2)]">
+					<Image
+						alt=""
+						aria-hidden="true"
+						className="h-7 w-7 rounded-md object-contain"
+						height={28}
+						priority
+						src="/logo.png"
+						width={28}
+					/>
 				</div>
+				<div className="min-w-0">
+					<div className="truncate font-semibold text-[var(--color-text)] text-sm">
+						Diff Lab
+					</div>
+					<div className="truncate text-[var(--color-text-muted)] text-xs">
+						difflab-storage
+					</div>
+				</div>
+			</div>
+
+			<div className="space-y-3 border-[var(--color-border)] border-b p-3">
 				<Button
 					className="w-full justify-start"
 					icon={<GitCompareArrows aria-hidden="true" size={16} />}
