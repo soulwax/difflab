@@ -27,10 +27,10 @@ function FolderNode({
 		<li>
 			<button
 				aria-current={isActive ? "page" : undefined}
-				className={`flex h-8 w-full items-center gap-2 rounded-md px-2 text-left text-sm transition ${
+				className={`relative flex h-8 w-full items-center gap-2 rounded px-2 text-left text-sm transition ${
 					isActive
-						? "bg-[var(--color-surface-2)] text-[var(--color-text)]"
-						: "text-[var(--color-text-muted)] hover:bg-[var(--color-surface-2)] hover:text-[var(--color-text)]"
+						? "bg-[var(--color-surface-hover)] text-[var(--color-text)] before:absolute before:top-1.5 before:left-0 before:h-5 before:w-0.5 before:rounded-full before:bg-[var(--color-primary)]"
+						: "text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]"
 				}`}
 				onClick={() => onSelectFolder(folder.id)}
 				style={{ paddingLeft: `${8 + depth * 14}px` }}
@@ -79,10 +79,10 @@ export function FolderTree({
 		<nav aria-label="Folders">
 			<button
 				aria-current={rootActive ? "page" : undefined}
-				className={`mb-1 flex h-8 w-full items-center gap-2 rounded-md px-2 text-left text-sm transition ${
+				className={`relative mb-1 flex h-8 w-full items-center gap-2 rounded px-2 text-left text-sm transition ${
 					rootActive
-						? "bg-[var(--color-surface-2)] text-[var(--color-text)]"
-						: "text-[var(--color-text-muted)] hover:bg-[var(--color-surface-2)] hover:text-[var(--color-text)]"
+						? "bg-[var(--color-surface-hover)] text-[var(--color-text)] before:absolute before:top-1.5 before:left-0 before:h-5 before:w-0.5 before:rounded-full before:bg-[var(--color-primary)]"
+						: "text-[var(--color-text-muted)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text)]"
 				}`}
 				onClick={() => onSelectFolder(null)}
 				type="button"

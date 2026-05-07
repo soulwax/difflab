@@ -188,7 +188,7 @@ export function DifflabApp({ user }: DifflabAppProps) {
 
 	return (
 		<main
-			className="grid h-screen min-h-[720px] grid-cols-1 bg-[var(--color-bg)] text-[var(--color-text)] lg:grid-cols-[280px_1fr]"
+			className="grid h-screen min-h-[720px] grid-cols-1 bg-transparent text-[var(--color-text)] lg:grid-cols-[280px_1fr]"
 			id="main-content"
 		>
 			<div className="hidden min-h-0 lg:block">
@@ -208,11 +208,11 @@ export function DifflabApp({ user }: DifflabAppProps) {
 			</div>
 
 			<section className="flex min-w-0 flex-col">
-				<header className="flex h-14 shrink-0 items-center justify-between border-[var(--color-border)] border-b bg-[var(--color-surface)] px-4">
+				<header className="flex h-14 shrink-0 items-center justify-between border-[var(--color-border)] border-b bg-[var(--color-surface)] px-4 shadow-[var(--shadow-elevation-1)] backdrop-blur-2xl">
 					<div className="flex min-w-0 items-center gap-3">
 						<button
 							aria-label="Start a new diff"
-							className="flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-2)] text-[var(--color-primary)] transition hover:border-[color:rgba(91,140,255,0.45)]"
+							className="flex h-8 w-8 items-center justify-center rounded border border-[var(--color-border)] bg-[var(--color-control)] text-[var(--color-primary)] shadow-[var(--shadow-elevation-1)] transition hover:bg-[var(--color-control-strong)]"
 							onClick={newDiff}
 							type="button"
 						>
@@ -224,7 +224,7 @@ export function DifflabApp({ user }: DifflabAppProps) {
 						</button>
 						<div className="min-w-0">
 							<div className="flex items-center gap-2">
-								<h1 className="truncate font-semibold text-sm">difflab</h1>
+								<h1 className="truncate font-semibold text-sm">Diff Lab</h1>
 								<Badge>{activeBreadcrumb}</Badge>
 							</div>
 							<div className="mt-0.5 flex min-w-0 items-center gap-1.5 text-[var(--color-text-muted)] text-xs">
@@ -321,7 +321,7 @@ export function DifflabApp({ user }: DifflabAppProps) {
 				<div className="min-h-0 flex-1 overflow-y-auto p-4 lg:p-6">
 					{!user ? (
 						<div className="grid min-h-full place-items-center">
-							<div className="w-full max-w-sm rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] p-6 text-center">
+							<div className="w-full max-w-sm rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-6 text-center shadow-[var(--shadow-elevation-2)] backdrop-blur-xl">
 								<MacSymbol className="mx-auto" kind="bucket" size="lg" />
 								<h2 className="font-semibold text-[var(--color-text)]">
 									Sign in to open your Drive

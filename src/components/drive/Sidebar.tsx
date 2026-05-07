@@ -32,16 +32,16 @@ export function Sidebar({
 	onSelectFolder,
 }: SidebarProps) {
 	return (
-		<aside className="flex h-full w-full flex-col border-[var(--color-border)] border-r bg-[var(--color-surface)]">
+		<aside className="flex h-full w-full flex-col border-[var(--color-border)] border-r bg-[var(--color-surface)] shadow-[var(--shadow-elevation-1)] backdrop-blur-2xl">
 			<div className="flex h-14 shrink-0 items-center gap-3 border-[var(--color-border)] border-b px-4">
-				<div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-2)]">
+				<div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-control)] shadow-[inset_0_1px_rgba(255,255,255,0.08)]">
 					<Image
 						alt=""
 						aria-hidden="true"
 						className="h-7 w-7 rounded-md object-contain"
 						height={28}
 						priority
-						src="/logo.png"
+						src="/difflab-logo-stylyzed.png"
 						width={28}
 					/>
 				</div>
@@ -103,7 +103,7 @@ export function Sidebar({
 				/>
 			</div>
 
-			<div className="border-[var(--color-border)] border-t p-3 text-[var(--color-text-muted)] text-xs">
+			<div className="border-[var(--color-border)] border-t bg-[var(--color-control)] p-3 text-[var(--color-text-muted)] text-xs">
 				{data?.documents.length ?? 0} documents
 			</div>
 		</aside>

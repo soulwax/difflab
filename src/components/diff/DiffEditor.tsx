@@ -108,10 +108,10 @@ function CodeMirrorPanel({ label, onChange, value }: CodeMirrorPanelProps) {
 	return (
 		<section
 			aria-label={`${label} editor`}
-			className="flex min-h-0 flex-col overflow-hidden rounded-md border border-[var(--color-border)] bg-[var(--color-surface)]"
+			className="flex min-h-0 flex-col overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-elevation-1)] backdrop-blur-xl"
 		>
-			<div className="flex h-10 items-center justify-between border-[var(--color-border)] border-b bg-[var(--color-surface-2)] px-3">
-				<h2 className="font-medium text-[var(--color-text-muted)] text-xs uppercase tracking-[0.08em]">
+			<div className="flex h-9 items-center justify-between border-[var(--color-border)] border-b bg-[var(--color-control)] px-3">
+				<h2 className="font-medium text-[var(--color-text-muted)] text-xs">
 					{label}
 				</h2>
 			</div>
@@ -163,15 +163,15 @@ export function DiffEditor({
 
 	return (
 		<div className="flex min-h-0 flex-1 flex-col gap-4">
-			<div className="flex flex-col gap-3 border-[var(--color-border)] border-b pb-4 lg:flex-row lg:items-center lg:justify-between">
+			<div className="flex flex-col gap-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-3 shadow-[var(--shadow-elevation-1)] backdrop-blur-xl lg:flex-row lg:items-center lg:justify-between">
 				<div className="min-w-0">
 					<Input
 						aria-label="Diff document name"
-						className="h-10 w-full min-w-0 border-transparent bg-transparent px-0 font-semibold text-xl focus:border-transparent focus:ring-0 lg:w-[420px]"
+						className="h-9 w-full min-w-0 border-transparent bg-transparent px-0 font-semibold text-lg focus:border-transparent focus:bg-transparent focus:ring-0 lg:w-[420px]"
 						onChange={(event) => onNameChange(event.target.value)}
 						value={documentName}
 					/>
-					<p className="mt-1 text-[var(--color-text-muted)] text-sm">
+					<p className="text-[var(--color-text-muted)] text-sm">
 						{lineSummary}
 					</p>
 				</div>

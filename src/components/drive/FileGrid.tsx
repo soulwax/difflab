@@ -86,7 +86,7 @@ export function FileGrid({
 
 	return (
 		<section className="flex min-h-0 flex-1 flex-col gap-4">
-			<div className="flex flex-col gap-3">
+			<div className="flex flex-col gap-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-3 shadow-[var(--shadow-elevation-1)] backdrop-blur-xl">
 				<div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
 					<div>
 						<h2 className="font-semibold text-[var(--color-text)] text-lg">
@@ -106,13 +106,13 @@ export function FileGrid({
 							/>
 							<Input
 								aria-label="Search bucket filesystem"
-								className="w-full pl-9"
+								className="w-full bg-[var(--color-control-strong)] pl-9"
 								onChange={(event) => setQuery(event.target.value)}
 								placeholder="Search files and folders"
 								value={query}
 							/>
 						</div>
-						<div className="flex rounded-md border border-[var(--color-border)] p-1">
+						<div className="flex rounded border border-[var(--color-border)] bg-[var(--color-control)] p-0.5">
 							<Button
 								aria-label="Sort by recently updated"
 								aria-pressed={sort === "updated"}
@@ -136,7 +136,7 @@ export function FileGrid({
 						</div>
 					</div>
 				</div>
-				<div className="flex w-fit rounded-md border border-[var(--color-border)] p-1">
+				<div className="flex w-fit rounded border border-[var(--color-border)] bg-[var(--color-control)] p-0.5">
 					<Button
 						aria-label="Grid view"
 						aria-pressed={view === "grid"}
@@ -165,15 +165,15 @@ export function FileGrid({
 					className={
 						view === "grid"
 							? "grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3"
-							: "flex flex-col overflow-hidden rounded-md border border-[var(--color-border)]"
+							: "flex flex-col overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-elevation-1)]"
 					}
 				>
 					{visibleFolders.map((folder) => (
 						<button
 							className={
 								view === "grid"
-									? "group flex min-h-32 flex-col justify-between rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] p-4 text-left transition hover:border-[color:rgba(91,140,255,0.5)] hover:bg-[var(--color-surface-2)]"
-									: "group flex items-center justify-between border-[var(--color-border)] border-b bg-[var(--color-surface)] px-4 py-3 text-left last:border-b-0 hover:bg-[var(--color-surface-2)]"
+									? "group flex min-h-32 flex-col justify-between rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4 text-left shadow-[var(--shadow-elevation-1)] backdrop-blur-xl transition hover:border-[var(--color-primary)] hover:bg-[var(--color-surface-hover)] hover:shadow-[var(--shadow-elevation-2)]"
+									: "group flex items-center justify-between border-[var(--color-border)] border-b bg-transparent px-4 py-3 text-left last:border-b-0 hover:bg-[var(--color-surface-hover)]"
 							}
 							key={folder.id}
 							onClick={() => onSelectFolder(folder.id)}
@@ -199,8 +199,8 @@ export function FileGrid({
 						<button
 							className={
 								view === "grid"
-									? "group flex min-h-32 flex-col justify-between rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] p-4 text-left transition hover:border-[color:rgba(91,140,255,0.5)] hover:bg-[var(--color-surface-2)]"
-									: "group flex items-center justify-between border-[var(--color-border)] border-b bg-[var(--color-surface)] px-4 py-3 text-left last:border-b-0 hover:bg-[var(--color-surface-2)]"
+									? "group flex min-h-32 flex-col justify-between rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4 text-left shadow-[var(--shadow-elevation-1)] backdrop-blur-xl transition hover:border-[var(--color-primary)] hover:bg-[var(--color-surface-hover)] hover:shadow-[var(--shadow-elevation-2)]"
+									: "group flex items-center justify-between border-[var(--color-border)] border-b bg-transparent px-4 py-3 text-left last:border-b-0 hover:bg-[var(--color-surface-hover)]"
 							}
 							key={document.id}
 							onClick={() => onOpenDocument(document)}
@@ -227,7 +227,7 @@ export function FileGrid({
 					))}
 				</div>
 			) : (
-				<div className="grid min-h-[360px] place-items-center rounded-md border border-[var(--color-border)] border-dashed bg-[var(--color-surface)]">
+				<div className="grid min-h-[360px] place-items-center rounded-lg border border-[var(--color-border)] border-dashed bg-[var(--color-surface)] shadow-[var(--shadow-elevation-1)] backdrop-blur-xl">
 					<div className="max-w-sm text-center">
 						<MacSymbol className="mx-auto" kind="bucket" size="lg" />
 						<h2 className="mt-4 font-medium text-[var(--color-text)]">

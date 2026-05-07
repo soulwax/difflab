@@ -12,7 +12,7 @@ export function DiffViewer({ baseText, headText, title }: DiffViewerProps) {
 	return (
 		<section
 			aria-label={title ?? "Text diff output"}
-			className="diff-viewer overflow-hidden rounded-md border border-[var(--color-border)] bg-[var(--color-surface)]"
+			className="diff-viewer overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-elevation-1)] backdrop-blur-xl"
 		>
 			<ReactDiffViewer
 				compareMethod={DiffMethod.WORDS}
