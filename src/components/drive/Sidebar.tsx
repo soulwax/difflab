@@ -1,5 +1,7 @@
 "use client";
 
+import { FolderPlus, GitCompareArrows, Plus, Server } from "lucide-react";
+
 import { FolderTree } from "~/components/drive/FolderTree";
 import { Button } from "~/components/ui/Button";
 import { Input } from "~/components/ui/Input";
@@ -30,9 +32,14 @@ export function Sidebar({
 }: SidebarProps) {
 	return (
 		<aside className="flex h-full w-full flex-col border-[var(--color-border)] border-r bg-[var(--color-surface)]">
-			<div className="space-y-2 border-[var(--color-border)] border-b p-3">
+			<div className="space-y-3 border-[var(--color-border)] border-b p-3">
+				<div className="flex items-center gap-2 px-1 text-[var(--color-text-muted)] text-xs">
+					<Server aria-hidden="true" size={14} strokeWidth={1.8} />
+					<span className="truncate">difflab-storage</span>
+				</div>
 				<Button
 					className="w-full justify-start"
+					icon={<GitCompareArrows aria-hidden="true" size={16} />}
 					onClick={onCreateDiff}
 					variant="primary"
 				>
@@ -55,9 +62,16 @@ export function Sidebar({
 					<Button
 						aria-label="Create folder"
 						disabled={isCreatingFolder || folderName.trim().length === 0}
+						icon={
+							folderName.trim().length > 0 ? (
+								<FolderPlus aria-hidden="true" size={15} />
+							) : (
+								<Plus aria-hidden="true" size={15} />
+							)
+						}
 						type="submit"
 					>
-						+
+						<span className="sr-only">Create folder</span>
 					</Button>
 				</form>
 			</div>

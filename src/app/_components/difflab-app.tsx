@@ -1,9 +1,20 @@
 "use client";
 
+import {
+	Cloud,
+	GitCompareArrows,
+	Grid2X2,
+	LogIn,
+	LogOut,
+	Moon,
+	Share2,
+	Sun,
+} from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 import { DiffEditor } from "~/components/diff/DiffEditor";
 import { FileGrid } from "~/components/drive/FileGrid";
+import { MacSymbol } from "~/components/drive/MacSymbol";
 import { Sidebar } from "~/components/drive/Sidebar";
 import { Badge } from "~/components/ui/Badge";
 import { Button } from "~/components/ui/Button";
@@ -173,6 +184,7 @@ export function DifflabApp({ user }: DifflabAppProps) {
 	const activeFolder = treeQuery.data?.folders.find(
 		(folder) => folder.id === activeFolderId,
 	);
+	const activeBreadcrumb = activeFolder?.name ?? "My Drive";
 
 	return (
 		<main
@@ -199,43 +211,73 @@ export function DifflabApp({ user }: DifflabAppProps) {
 				<header className="flex h-14 shrink-0 items-center justify-between border-[var(--color-border)] border-b bg-[var(--color-surface)] px-4">
 					<div className="flex min-w-0 items-center gap-3">
 						<button
-							className="flex h-8 w-8 items-center justify-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface-2)] font-semibold text-[var(--color-primary)]"
+							aria-label="Start a new diff"
+							className="flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-2)] text-[var(--color-primary)] transition hover:border-[color:rgba(91,140,255,0.45)]"
 							onClick={newDiff}
 							type="button"
 						>
-							d
+							<GitCompareArrows
+								aria-hidden="true"
+								size={18}
+								strokeWidth={1.9}
+							/>
 						</button>
 						<div className="min-w-0">
 							<div className="flex items-center gap-2">
 								<h1 className="truncate font-semibold text-sm">difflab</h1>
-								<Badge>{activeFolder?.name ?? "My Drive"}</Badge>
+								<Badge>{activeBreadcrumb}</Badge>
 							</div>
-							<p className="truncate text-[var(--color-text-muted)] text-xs">
-								{mode === "diff" ? "Diff workspace" : "Drive"}
-							</p>
+							<div className="mt-0.5 flex min-w-0 items-center gap-1.5 text-[var(--color-text-muted)] text-xs">
+								<Cloud aria-hidden="true" size={12} />
+								<span className="truncate">difflab-storage</span>
+								<span aria-hidden="true">/</span>
+								<span className="truncate">
+									{mode === "diff" ? "Diff workspace" : activeBreadcrumb}
+								</span>
+							</div>
 						</div>
 					</div>
 
 					<div className="flex items-center gap-2">
 						<Button
+							aria-label={mode === "drive" ? "Open editor" : "Open drive"}
 							aria-pressed={mode === "drive"}
+							icon={
+								mode === "drive" ? (
+									<GitCompareArrows aria-hidden="true" size={15} />
+								) : (
+									<Grid2X2 aria-hidden="true" size={15} />
+								)
+							}
 							onClick={() => setMode(mode === "drive" ? "diff" : "drive")}
 							variant="ghost"
 						>
-							{mode === "drive" ? "Editor" : "Drive"}
+							<span className="hidden sm:inline">
+								{mode === "drive" ? "Editor" : "Drive"}
+							</span>
 						</Button>
 						<Button
 							aria-label="Toggle theme"
+							icon={
+								theme === "dark" ? (
+									<Sun aria-hidden="true" size={15} />
+								) : (
+									<Moon aria-hidden="true" size={15} />
+								)
+							}
 							onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
 							variant="ghost"
 						>
-							{theme === "dark" ? "Light" : "Dark"}
+							<span className="sr-only">
+								{theme === "dark" ? "Light" : "Dark"}
+							</span>
 						</Button>
 						{user ? (
 							<>
 								{selectedDocumentId && (
 									<Button
 										disabled={makePublicMutation.isPending}
+										icon={<Share2 aria-hidden="true" size={15} />}
 										onClick={() =>
 											makePublicMutation.mutate({
 												documentId: selectedDocumentId,
@@ -246,12 +288,21 @@ export function DifflabApp({ user }: DifflabAppProps) {
 										Share
 									</Button>
 								)}
-								<Button onClick={signOut} variant="ghost">
-									Sign out
+								<Button
+									aria-label="Sign out"
+									icon={<LogOut aria-hidden="true" size={15} />}
+									onClick={signOut}
+									variant="ghost"
+								>
+									<span className="hidden sm:inline">Sign out</span>
 								</Button>
 							</>
 						) : (
-							<Button onClick={signInWithGithub} variant="primary">
+							<Button
+								icon={<LogIn aria-hidden="true" size={15} />}
+								onClick={signInWithGithub}
+								variant="primary"
+							>
 								Sign in with GitHub
 							</Button>
 						)}
@@ -271,6 +322,7 @@ export function DifflabApp({ user }: DifflabAppProps) {
 					{!user ? (
 						<div className="grid min-h-full place-items-center">
 							<div className="w-full max-w-sm rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] p-6 text-center">
+								<MacSymbol className="mx-auto" kind="bucket" size="lg" />
 								<h2 className="font-semibold text-[var(--color-text)]">
 									Sign in to open your Drive
 								</h2>
@@ -279,6 +331,7 @@ export function DifflabApp({ user }: DifflabAppProps) {
 								</p>
 								<Button
 									className="mt-5 w-full"
+									icon={<LogIn aria-hidden="true" size={15} />}
 									onClick={signInWithGithub}
 									variant="primary"
 								>
@@ -293,8 +346,14 @@ export function DifflabApp({ user }: DifflabAppProps) {
 						</div>
 					) : mode === "drive" ? (
 						<FileGrid
+							activeFolderId={activeFolderId}
 							documents={documentsInFolder}
+							folders={treeQuery.data?.folders ?? []}
 							onOpenDocument={openDocument}
+							onSelectFolder={(folderId) => {
+								setActiveFolderId(folderId);
+								setMode("drive");
+							}}
 						/>
 					) : (
 						<DiffEditor

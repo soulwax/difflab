@@ -1,5 +1,8 @@
 "use client";
 
+import { ChevronDown, HardDrive } from "lucide-react";
+
+import { MacSymbol } from "~/components/drive/MacSymbol";
 import type { RouterOutputs } from "~/trpc/react";
 
 type Folder = RouterOutputs["folders"]["getTree"]["folders"][number];
@@ -33,11 +36,18 @@ function FolderNode({
 				style={{ paddingLeft: `${8 + depth * 14}px` }}
 				type="button"
 			>
-				<span aria-hidden="true" className="text-[10px]">
-					{children.length > 0 ? "▾" : " "}
+				<span className="flex h-4 w-4 items-center justify-center">
+					{children.length > 0 && (
+						<ChevronDown aria-hidden="true" size={13} strokeWidth={2} />
+					)}
 				</span>
-				<span aria-hidden="true">□</span>
+				<MacSymbol kind="folder" size="sm" />
 				<span className="truncate">{folder.name}</span>
+				{children.length > 0 && (
+					<span className="ml-auto rounded-full bg-[var(--color-surface)] px-1.5 text-[10px] text-[var(--color-text-muted)]">
+						{children.length}
+					</span>
+				)}
 			</button>
 			{children.length > 0 && (
 				<ul>
@@ -77,7 +87,7 @@ export function FolderTree({
 				onClick={() => onSelectFolder(null)}
 				type="button"
 			>
-				<span aria-hidden="true">▦</span>
+				<HardDrive aria-hidden="true" size={15} strokeWidth={1.9} />
 				<span className="truncate">My Drive</span>
 			</button>
 			<ul className="space-y-0.5">
