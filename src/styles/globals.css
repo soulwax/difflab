@@ -1,6 +1,131 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	--font-sans: "Geist", "Inter", ui-sans-serif, system-ui, sans-serif;
+	--font-mono: "Geist Mono", "JetBrains Mono", ui-monospace, monospace;
+}
+
+:root {
+	color-scheme: dark;
+	--color-bg: #0d0d0d;
+	--color-surface: #141414;
+	--color-surface-2: #1a1a1a;
+	--color-border: rgba(255, 255, 255, 0.08);
+	--color-text: #e8e8e8;
+	--color-text-muted: #888;
+	--color-primary: #5b8cff;
+	--color-diff-add: #1a3a1a;
+	--color-diff-add-text: #3fb950;
+	--color-diff-remove: #3a1a1a;
+	--color-diff-remove-text: #f85149;
+	--font-body: "Geist", "Inter", system-ui, sans-serif;
+	--font-mono: "Geist Mono", "JetBrains Mono", monospace;
+}
+
+@media (prefers-color-scheme: light) {
+	:root {
+		color-scheme: light;
+		--color-bg: #f7f8fa;
+		--color-surface: #ffffff;
+		--color-surface-2: #f0f2f5;
+		--color-border: rgba(15, 23, 42, 0.1);
+		--color-text: #171717;
+		--color-text-muted: #667085;
+		--color-primary: #346df1;
+		--color-diff-add: #e9f7eb;
+		--color-diff-add-text: #1a7f37;
+		--color-diff-remove: #ffebe9;
+		--color-diff-remove-text: #cf222e;
+	}
+}
+
+[data-theme="dark"] {
+	color-scheme: dark;
+	--color-bg: #0d0d0d;
+	--color-surface: #141414;
+	--color-surface-2: #1a1a1a;
+	--color-border: rgba(255, 255, 255, 0.08);
+	--color-text: #e8e8e8;
+	--color-text-muted: #888;
+	--color-primary: #5b8cff;
+	--color-diff-add: #1a3a1a;
+	--color-diff-add-text: #3fb950;
+	--color-diff-remove: #3a1a1a;
+	--color-diff-remove-text: #f85149;
+}
+
+[data-theme="light"] {
+	color-scheme: light;
+	--color-bg: #f7f8fa;
+	--color-surface: #ffffff;
+	--color-surface-2: #f0f2f5;
+	--color-border: rgba(15, 23, 42, 0.1);
+	--color-text: #171717;
+	--color-text-muted: #667085;
+	--color-primary: #346df1;
+	--color-diff-add: #e9f7eb;
+	--color-diff-add-text: #1a7f37;
+	--color-diff-remove: #ffebe9;
+	--color-diff-remove-text: #cf222e;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	background: var(--color-bg);
+	font-family: var(--font-body);
+}
+
+body {
+	min-height: 100vh;
+	margin: 0;
+	background: var(--color-bg);
+	color: var(--color-text);
+}
+
+::selection {
+	background: color-mix(in srgb, var(--color-primary) 35%, transparent);
+}
+
+:focus-visible {
+	outline: 2px solid var(--color-primary);
+	outline-offset: 2px;
+}
+
+.diff-region {
+	font-family: var(--font-mono);
+}
+
+.cm-editor {
+	height: 100%;
+	background: var(--color-surface);
+	color: var(--color-text);
+	font-family: var(--font-mono);
+	font-size: 13px;
+}
+
+.cm-scroller {
+	font-family: var(--font-mono);
+}
+
+.cm-gutters {
+	border-right: 1px solid var(--color-border);
+	background: var(--color-surface-2);
+	color: var(--color-text-muted);
+}
+
+.cm-activeLine,
+.cm-activeLineGutter {
+	background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+}
+
+.diff-viewer table {
+	font-family: var(--font-mono);
+	font-size: 12px;
+}
+
+.diff-viewer pre {
+	font-family: var(--font-mono);
 }

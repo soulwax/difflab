@@ -5,19 +5,19 @@ import { env } from "~/env";
 import { db } from "~/server/db";
 
 export const auth = betterAuth({
-  database: drizzleAdapter(db, {
-    provider: "pg", // or "pg" or "mysql"
-  }),
-  emailAndPassword: {
-    enabled: true,
-  },
-  socialProviders: {
-    github: {
-      clientId: env.BETTER_AUTH_GITHUB_CLIENT_ID,
-      clientSecret: env.BETTER_AUTH_GITHUB_CLIENT_SECRET,
-      redirectURI: "http://localhost:3122/api/auth/callback/github",
-    },
-  },
+	baseURL: env.NEXT_PUBLIC_APP_URL,
+	database: drizzleAdapter(db, {
+		provider: "pg", // or "pg" or "mysql"
+	}),
+	emailAndPassword: {
+		enabled: false,
+	},
+	socialProviders: {
+		github: {
+			clientId: env.BETTER_AUTH_GITHUB_CLIENT_ID,
+			clientSecret: env.BETTER_AUTH_GITHUB_CLIENT_SECRET,
+		},
+	},
 });
 
 export type Session = typeof auth.$Infer.Session;

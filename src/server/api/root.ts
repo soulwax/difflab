@@ -1,4 +1,7 @@
-import { postRouter } from "~/server/api/routers/post";
+import { documentsRouter } from "~/server/api/routers/documents";
+import { foldersRouter } from "~/server/api/routers/folders";
+import { shareRouter } from "~/server/api/routers/share";
+import { storageRouter } from "~/server/api/routers/storage";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
 /**
@@ -7,7 +10,10 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  post: postRouter,
+	documents: documentsRouter,
+	folders: foldersRouter,
+	share: shareRouter,
+	storage: storageRouter,
 });
 
 // export type definition of API
