@@ -170,10 +170,14 @@ export function DifflabApp({ user }: DifflabAppProps) {
 	}
 
 	async function signInWithGithub() {
-		await authClient.signIn.social({
+		const response = await authClient.signIn.social({
 			callbackURL: "/",
 			provider: "github",
 		});
+
+		if (response.data?.url) {
+			window.location.href = response.data.url;
+		}
 	}
 
 	async function signOut() {
