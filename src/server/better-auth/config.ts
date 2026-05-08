@@ -4,6 +4,7 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { env } from "~/env";
 import { db } from "~/server/db";
 import * as schema from "~/server/db/schema";
+import { ensureFirstSuperadmin } from "~/server/rbac";
 
 const authBaseUrl = (env.BETTER_AUTH_URL ?? env.NEXT_PUBLIC_APP_URL).replace(
 	/\/$/,
@@ -36,6 +37,22 @@ export const auth = betterAuth({
 		provider: "pg",
 		schema,
 	}),
+	databaseHooks: {
+		session: {
+			create: {
+				after: async (session) => {
+					await ensureFirstSuperadmin(session.userId);
+				},
+			},
+		},
+		user: {
+			create: {
+				after: async (createdUser) => {
+					await ensureFirstSuperadmin(createdUser.id);
+				},
+			},
+		},
+	},
 	emailAndPassword: {
 		enabled: false,
 	},
@@ -45,6 +62,16 @@ export const auth = betterAuth({
 		github: {
 			clientId: env.BETTER_AUTH_GITHUB_CLIENT_ID,
 			clientSecret: env.BETTER_AUTH_GITHUB_CLIENT_SECRET,
+		},
+	},
+	user: {
+		additionalFields: {
+			role: {
+				defaultValue: "user",
+				input: false,
+				required: false,
+				type: "string",
+			},
 		},
 	},
 });

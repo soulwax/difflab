@@ -8,10 +8,12 @@ import {
 	LogOut,
 	Moon,
 	Share2,
+	ShieldCheck,
 	Sun,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
+import { AdminPanel } from "~/components/admin/AdminPanel";
 import { DiffEditor } from "~/components/diff/DiffEditor";
 import { FileGrid } from "~/components/drive/FileGrid";
 import { MacSymbol } from "~/components/drive/MacSymbol";
@@ -24,6 +26,7 @@ import { api, type RouterOutputs } from "~/trpc/react";
 
 type SessionUser = {
 	email: string;
+	id: string;
 	image?: string | null;
 	name: string;
 };
@@ -46,7 +49,7 @@ export function DifflabApp({ user }: DifflabAppProps) {
 	const [documentName, setDocumentName] = useState("Untitled diff");
 	const [folderName, setFolderName] = useState("");
 	const [headText, setHeadText] = useState(EMPTY_DIFF.head);
-	const [mode, setMode] = useState<"diff" | "drive">("diff");
+	const [mode, setMode] = useState<"admin" | "diff" | "drive">("diff");
 	const [selectedDocumentId, setSelectedDocumentId] = useState<string | null>(
 		null,
 	);
@@ -54,6 +57,9 @@ export function DifflabApp({ user }: DifflabAppProps) {
 	const [theme, setTheme] = useState<"dark" | "light">("dark");
 
 	const treeQuery = api.folders.getTree.useQuery(undefined, {
+		enabled: Boolean(user),
+	});
+	const adminAccessQuery = api.admin.getAccess.useQuery(undefined, {
 		enabled: Boolean(user),
 	});
 	const selectedDocumentQuery = api.documents.getById.useQuery(
@@ -112,6 +118,12 @@ export function DifflabApp({ user }: DifflabAppProps) {
 				: null,
 		);
 	}, [selectedDocumentQuery.data]);
+
+	useEffect(() => {
+		if (mode === "admin" && adminAccessQuery.data?.canManageUsers === false) {
+			setMode("drive");
+		}
+	}, [adminAccessQuery.data?.canManageUsers, mode]);
 
 	useEffect(() => {
 		const onKeyDown = (event: KeyboardEvent) => {
@@ -189,6 +201,7 @@ export function DifflabApp({ user }: DifflabAppProps) {
 		(folder) => folder.id === activeFolderId,
 	);
 	const activeBreadcrumb = activeFolder?.name ?? "My Drive";
+	const canManageUsers = adminAccessQuery.data?.canManageUsers ?? false;
 
 	return (
 		<main
@@ -236,13 +249,32 @@ export function DifflabApp({ user }: DifflabAppProps) {
 								<span className="truncate">difflab-storage</span>
 								<span aria-hidden="true">/</span>
 								<span className="truncate">
-									{mode === "diff" ? "Diff workspace" : activeBreadcrumb}
+									{mode === "diff"
+										? "Diff workspace"
+										: mode === "admin"
+											? "Access control"
+											: activeBreadcrumb}
 								</span>
 							</div>
 						</div>
 					</div>
 
 					<div className="flex items-center gap-2">
+						{canManageUsers && (
+							<Button
+								aria-label={
+									mode === "admin"
+										? "Close access control"
+										: "Open access control"
+								}
+								aria-pressed={mode === "admin"}
+								icon={<ShieldCheck aria-hidden="true" size={15} />}
+								onClick={() => setMode(mode === "admin" ? "drive" : "admin")}
+								variant={mode === "admin" ? "secondary" : "ghost"}
+							>
+								<span className="hidden sm:inline">Admin</span>
+							</Button>
+						)}
 						<Button
 							aria-label={mode === "drive" ? "Open editor" : "Open drive"}
 							aria-pressed={mode === "drive"}
@@ -348,6 +380,11 @@ export function DifflabApp({ user }: DifflabAppProps) {
 							<Skeleton className="h-10 w-64" />
 							<Skeleton className="h-80 w-full" />
 						</div>
+					) : mode === "admin" && canManageUsers && adminAccessQuery.data ? (
+						<AdminPanel
+							currentUserId={user.id}
+							role={adminAccessQuery.data.role}
+						/>
 					) : mode === "drive" ? (
 						<FileGrid
 							activeFolderId={activeFolderId}
